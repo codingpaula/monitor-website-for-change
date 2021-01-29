@@ -22,6 +22,7 @@ while True:
             server.starttls()
             server.login(fromaddr, os.environ['MAILTOKEN'])
         
+            print(time.localtime())
             print('From: ' + fromaddr)
             print('To: ' + str(toaddrs))
             print('Message: ' + msg)
@@ -32,8 +33,6 @@ while True:
             didAlreadySend = True
     else:
         didAlreadySend = False
-        print('no live edge case was found')
+        print(time.localtime() + ': no live edge case was found')
     
     time.sleep(300)
-    continue
-            
