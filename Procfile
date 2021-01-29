@@ -1,1 +1,1 @@
-python monitoring-script.py
+worker: python monitoring-script.py
