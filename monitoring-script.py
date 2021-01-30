@@ -10,6 +10,8 @@ url = "https://www.carved.com/collections/custom-block-live-edges-all"
 headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'}
 response = requests.get(url, headers=headers)
 soup = BeautifulSoup(response.text,  "lxml")
+f = open("logs.txt", "a")
+f.write(time.asctime() + "\n")
     
 if str(soup).find("card-product") > -1:
     if os.environ['ALREADYSENT'] == '0':
@@ -21,10 +23,9 @@ if str(soup).find("card-product") > -1:
         server.starttls()
         server.login(fromaddr, os.environ['MAILTOKEN'])
     
-        print(time.localtime())
-        print('From: ' + fromaddr)
-        print('To: ' + str(toaddrs))
-        print('Message: ' + msg)
+        f.write('From: ' + fromaddr + "\n")
+        f.write('To: ' + str(toaddrs) + "\n")
+        f.write('Message: ' + msg + "\n")
     
         server.sendmail(fromaddr, toaddrs, msg)
         server.quit()
@@ -32,4 +33,6 @@ if str(soup).find("card-product") > -1:
         os.environ['ALREADYSENT'] = '1'
 else:
     os.environ['ALREADYSENT'] = '0'
-    print('no live edge case was found')
+    f.write('no live edge case was found' + "\n")
+
+f.close()
